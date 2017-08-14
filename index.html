@@ -18,15 +18,20 @@ if ('serviceWorker' in navigator) {
   });
 }
   
+
+  
+window.onload = function () {
 var saveButton = document.getElementById('save_button');
 var deferredPrompt;
-
+  
+  
 window.addEventListener('beforeinstallprompt', function(e) {
     console.log('インストールバナーの表示をキャンセルします');
     e.preventDefault();
     saveButton.removeAttribute('disabled');
     deferredPrompt = e;
   });
+
 
 saveButton.addEventListener('click', function() {
     if (deferredPrompt !== undefined) {
@@ -42,6 +47,7 @@ saveButton.addEventListener('click', function() {
       });
     }
   });
+};
 </script>
 </head>
 <body>
