@@ -68,30 +68,3 @@ self.addEventListener('fetch', (event) => {
               })
     );
 });
-
-var saveButton = document.getElementById('save_button');
-var deferredPrompt;
-  
-  
-window.addEventListener('beforeinstallprompt', function(e) {
-    console.log('インストールバナーの表示をキャンセルします');
-    e.preventDefault();
-    saveButton.removeAttribute('disabled');
-    deferredPrompt = e;
-  });
-
-
-saveButton.addEventListener('click', function() {
-    if (deferredPrompt !== undefined) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(function(result) {
-        if (result.outcome == 'dismissed') {
-          console.log('キャンセルされました');
-        } else {
-          console.log('インストールされました');
-        }
-        deferredPrompt = null;
-        saveButton.addAttribute('disabled');
-      });
-    }
-  });
