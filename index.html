@@ -18,6 +18,7 @@ if ('serviceWorker' in navigator) {
   });
 }
   
+document.addEventListener("DOMContentLoaded", function(){
 var saveButton = document.getElementById('save_button');
 var deferredPrompt;
   
@@ -44,7 +45,7 @@ saveButton.addEventListener('click', function() {
       });
     }
   });
-
+}, false);
 </script>
 </head>
 <body>
