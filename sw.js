@@ -2,7 +2,8 @@
 
 const CACHE_NAME = 'cache-v1';
 const urlsToCache = [
-    './'
+    './',
+    './icon.png'
 ];
 
 self.addEventListener('install', (event) => {
