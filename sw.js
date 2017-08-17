@@ -69,4 +69,3 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-beforeinstallprompt.prompt();
