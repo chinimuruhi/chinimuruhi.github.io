@@ -32,8 +32,8 @@ window.addEventListener('beforeinstallprompt', function(e) {
 
 
 saveButton.addEventListener('click', function() {
+    console.log("実行");
     if (deferredPrompt !== undefined) {
-      console.log("実行");
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(function(result) {
         if (result.outcome == 'dismissed') {
