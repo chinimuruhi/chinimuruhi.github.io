@@ -11,5 +11,5 @@
   "start_url": "/?utm_source=homescreen",
   "display": "fullscreen",
   "orientation": "portrait",
-  "background_color": "##ffffc1"
+  "background_color": "#ffffc1"
 }
