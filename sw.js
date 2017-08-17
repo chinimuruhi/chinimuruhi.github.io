@@ -1,4 +1,4 @@
-/**'use strict';
+'use strict';
 
 const CACHE_NAME = 'cache-v1';
 const urlsToCache = [
@@ -68,4 +68,4 @@ self.addEventListener('fetch', (event) => {
               })
     );
 });
-*/
+
