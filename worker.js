@@ -5,6 +5,7 @@ onmessage = function(e) {
 	var pb = e.data.dpb;
 	var wx = e.data.dwx;
 	var wy = e.data.dwy;
+	console.log(e.data);
 	var rd1 = Math.floor( Math.random() * 8 );
 	var rd2 = Math.random() * vxmax + vxmax/4;
 	var rd3 = Math.random() * vymax + vymax/4;
