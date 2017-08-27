@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>玉避けゲーム</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -198,29 +198,6 @@ if (window.Worker) {
 	var worker = new Worker('worker.js');
 	var test = new Worker('test.js');
 }
-
-
-worker.onmessage = function(e){
-	var num = e.data.n;
-	ball[num] = e.data.array;
-	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
-	ball[i][8] = 0;
-}
-
-
-test.onmessage = function(e){
-	ball = e.data;
-	var len = ball.length;
-	for (var i = 0; i < len; i++) {
-		if(ball[i][7] == 1){
-			if(ball[i][8] != 1){
-				set(i);
-				ball[i][8] = 1;
-			}
-		}
-	}
-}
-
 
 function lsCheck(){
     try{
@@ -450,6 +427,27 @@ function start(){
 	window.addEventListener('resize',function(){
 		rs = 1;
 	},false);
+}
+
+worker.onmessage = function(e){
+	var num = e.data.n;
+	ball[num] = e.data.array;
+	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
+	ball[i][8] = 0;
+}
+
+
+test.onmessage = function(e){
+	ball = e.data;
+	var len = ball.length;
+	for (var i = 0; i < len; i++) {
+		if(ball[i][7] == 1){
+			if(ball[i][8] != 1){
+				set(i);
+				ball[i][8] = 1;
+			}
+		}
+	}
 }
 
 </script>
