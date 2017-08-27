@@ -443,7 +443,7 @@ test.onmessage = function(e){
 	ball = e.data;
 	var len = ball.length;
 	for (var i = 0; i < len; i++) {
-		if(ball[i][7] == 1 || ball[i][8] != 1){
+		if(ball[i][7] == 1 && ball[i][8] != 1){
 			set(i);
 			ball[i][8] = 1;
 		}
