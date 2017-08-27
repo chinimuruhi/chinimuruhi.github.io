@@ -1,0 +1,47 @@
+﻿<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon-precomposed" href="icon.png">
+<title>テスト</title>
+<script type="text/javascript">
+var stats=new Stats();
+document.body.appendChild(stats.domElement);
+
+var c=document.querySelector('#c'),
+    cx=c.getContext('2d'),
+    w=c.width,
+    h=c.height;
+setInterval(function(){
+    var i=0,l=~~document.querySelector('#n').value;
+    cx.clearRect(0,0,w,h);
+    for(;i<l;i++){
+        cx.beginPath();
+        cx.arc(w*Math.random(), h*Math.random(), 1, 0, Math.PI*2, true);
+        cx.fill();
+        cx.closePath();
+    }
+    stats.update();
+},16);
+</script>
+<style type="text/css">
+	#c,input {
+    margin: 0;
+    padding: 0;
+    position:absolute;
+    top:0;
+    left:0;
+}
+input{
+    top:10px;
+    left:100px;
+}
+</style>
+</head>
+<body>
+<canvas id="c" width="465" height="465"></canvas>
+<input type="number" value="1000" step="100" id="n">
+</body>
+</html>
