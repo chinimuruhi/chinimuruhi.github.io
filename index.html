@@ -217,7 +217,8 @@ function moveplayer() {
 }
 
 function moveball(){
-	for (var i = 0; i < ball.length; i++){
+	var len = ball.length;
+	for (var i = 0; i < len; i++){
 		console.log(ball[i][0]);
 		console.log(ball[i][1]);
 		document.getElementById("e"+i).style.left = ball[i][0];
