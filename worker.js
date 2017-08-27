@@ -1,6 +1,5 @@
 onmessage = function(e) {
 	var ball = e.data.darray;
-	console.log(e.data);
 	var vxmax = e.data.dvx;
 	var vymax = e.data.dvy;
 	var pb = e.data.dpb;
