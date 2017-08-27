@@ -1,15 +1,14 @@
 {
-  "short_name": "TEST",
-  "name": "TEST",
+  "short_name": "Kinlan's Amaze App",
+  "name": "Kinlan's Amazing Application ++",
   "icons": [
     {
       "src": "icon.png",
-      "sizes": "144x144",
+      "sizes": "256x256",
       "type": "image/png"
     }
   ],
-  "start_url": "/?utm_source=homescreen",
-  "display": "fullscreen",
-  "orientation": "portrait",
-  "background_color": "#ffffc1"
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "landscape"
 }
