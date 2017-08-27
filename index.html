@@ -433,7 +433,7 @@ worker.onmessage = function(e){
 	var num = e.data.n;
 	ball[num] = e.data.array;
 	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
-	ball[i][8] = 0;
+	ball[num][8] = 0;
 }
 
 
