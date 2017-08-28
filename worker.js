@@ -119,6 +119,6 @@ onmessage = function(e) {
 		'dcount':count,
 	};
 	postMessage(result);
-	setInterval("d5()", 10.0);
+	setInterval("d5()", 5.0);
 	
 };
