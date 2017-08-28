@@ -1,0 +1,14 @@
+{
+  "short_name": "玉避けゲーム",
+  "name": "玉避けゲーム",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/?utm_source=homescreen",
+  "display": "standalone",
+  "orientation": "landscape",
+}
