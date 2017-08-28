@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>玉避けゲーム</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -168,6 +168,26 @@ img {
 </style>
 
 <script type="text/javascript">
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+    // 登録成功
+    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+  }).catch(function(err) {
+    // 登録失敗 :(
+    console.log('ServiceWorker registration failed: ', err);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 var highscore;
 var game;
 var mx = null;
@@ -194,10 +214,7 @@ var ball = [];
 var startTime;
 var endTime;
 
-if (window.Worker) {
-	var worker = new Worker('worker.js');
-	var test = new Worker('test.js');
-}
+
 
 function lsCheck(){
     try{
@@ -217,10 +234,7 @@ function moveplayer() {
 }
 
 function moveball(){
-	var len = ball.length;
-	for (var i = 0; i < len; i++){
-		console.log(ball[i][0]);
-		console.log(ball[i][1]);
+	for (var i = 0; i < ball.length; i++){
 		document.getElementById("e"+i).style.left = ball[i][0];
 		document.getElementById("e"+i).style.top = ball[i][1];
 	}
@@ -237,19 +251,69 @@ function jd(){
 }
 
 
-function set(num){
-	if (window.Worker) {
-		var obj = {
-			'dn':num,
-			'darray':ball[num],
-			'dvx':vxmax,
-			'dvy':vymax,
-			'dpb':pb,
-			'dwx':wx,
-			'dwy':wy,
-		};
-		worker.postMessage(obj);
+function change(num){
+	var rd1 = Math.floor( Math.random() * 8 );
+	var rd2 = Math.random() * vxmax + vxmax/4;
+	var rd3 = Math.random() * vymax + vymax/4;
+	ball[num][4] = Math.floor( (Math.random()*2.5 +0.5) *pb );
+	ball[num][5] = Math.floor(Math.random() * 100);
+	ball[num][6] = Math.floor(Math.random() * 256);
+	switch(rd1){
+		case 0:
+			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1));
+			ball[num][1] = -ball[num][4]; 
+			ball[num][2] = rd2;
+			ball[num][3] = rd3;
+			break;
+		case 1:
+			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1) + wx/2 );
+			ball[num][1] = -ball[num][4];
+			ball[num][2] = -rd2;
+			ball[num][3] = rd3;
+			break;
+		case 2:
+			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1));
+			ball[num][1] = wy;
+			ball[num][2] = rd2;
+			ball[num][3] = -rd3;
+			break;
+		case 3:
+			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1) + wx/2 );
+			ball[num][1] = wy;
+			ball[num][2] = -rd2
+			ball[num][3] = -rd3
+			break;
+		case 4:
+			ball[num][0] = -ball[num][4];
+			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1));
+			ball[num][2] = rd2;
+			ball[num][3] = rd3;
+			break;
+		case 5:
+			ball[num][0] = -ball[num][4];
+			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1) + wy/2 );
+			ball[num][2] = rd2;
+			ball[num][3] = -rd3;
+			break;
+		case 6:
+			ball[num][0] = wx;
+			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1));
+			ball[num][2] = -rd2;
+			ball[num][3] = rd3;
+			break;
+		case 7:
+			ball[num][0] = wx;
+			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1) + wy/2 );
+			ball[num][2] = -rd2;
+			ball[num][3] = -rd3;
+			break;
 	}
+}
+
+
+function set(num){
+	change(num);
+	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
 	count++;
 	enemy++;
 	if( enemy%ball.length == 0 ){
@@ -259,23 +323,13 @@ function set(num){
 }
 
 function add(num){
-	ball.push(['','','','','','','','']);
+	ball.push(['','','','','','','']);
+	change(num);
 	var div_element = document.createElement("div");
 	div_element.setAttribute("class","en");
 	div_element.setAttribute("id","e"+num);
 	document.body.appendChild(div_element);
-	if (window.Worker) {
-		var obj = {
-			'dn':num,
-			'darray':ball[num],
-			'dvx':vxmax,
-			'dvy':vymax,
-			'dpb':pb,
-			'dwx':wx,
-			'dwy':wy,
-		};
-	worker.postMessage(obj);
-	}
+	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
 }
 
 
@@ -339,14 +393,20 @@ function disp1(){
 
 
 function disp2(){
-	if (window.Worker) {
-		var obj = {
-			'darray':ball,
-			'dwx':wx,
-			'dwy':wy,
-		};
-		test.postMessage(obj);
+	endTime = new Date();
+	document.getElementById("score").innerHTML = "<p>"+ (endTime - startTime) + "ms</p>";
+	console.log(endTime - startTime + "ms");
+	startTime = new Date();
+	var len = ball.length;
+	for (var i = 0; i < len; i++) {
+		if( (ball[i][0] < -ball[i][4]) || (ball[i][1] < -ball[i][4]) || (ball[i][0] > wx + ball[i][4]) || (ball[i][1] > wy + ball[i][4]) ){
+			setTimeout(set(i),0);
+		}else{
+			ball[i][0] = ball[i][0] + ball[i][2];
+			ball[i][1] = ball[i][1] + ball[i][3];
+		}
 	}
+
 }
 
 function disp3(){
@@ -430,25 +490,6 @@ function start(){
 	window.addEventListener('resize',function(){
 		rs = 1;
 	},false);
-}
-
-worker.onmessage = function(e){
-	var num = e.data.n;
-	ball[num] = e.data.array;
-	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
-	ball[num][8] = 0;
-}
-
-
-test.onmessage = function(e){
-	ball = e.data;
-	var len = ball.length;
-	for (var i = 0; i < len; i++) {
-		if(ball[i][7] == 1 && ball[i][8] != 1){
-			set(i);
-			ball[i][8] = 1;
-		}
-	}
 }
 
 </script>
