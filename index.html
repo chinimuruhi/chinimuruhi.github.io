@@ -6,7 +6,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon-precomposed" href="icon.png">
 <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
-<link rel="manifest" href="/manifest.json">
 <style type="text/css">
 
 body {
@@ -169,26 +168,6 @@ img {
 </style>
 
 <script type="text/javascript">
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').then(function(registration) {
-    // 登録成功
-    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-  }).catch(function(err) {
-    // 登録失敗 :(
-    console.log('ServiceWorker registration failed: ', err);
-  });
-}
-
-
-
-
-
-
-
-
-
-
-
 var highscore;
 var game;
 var mx = null;
@@ -209,12 +188,16 @@ var speed = 10.0;
 var judge = null;
 var pb = null;
 var count = null;
-var enemy = null;
 var rs = null;
 var ball = [];
 var startTime;
 var endTime;
+var enemy;
 
+
+if (window.Worker) {
+	var worker = new Worker('worker.js');
+}
 
 
 function lsCheck(){
@@ -236,8 +219,7 @@ function moveplayer() {
 
 function moveball(){
 	for (var i = 0; i < ball.length; i++){
-		document.getElementById("e"+i).style.left = ball[i][0];
-		document.getElementById("e"+i).style.top = ball[i][1];
+		document.getElementById("e"+i).setAttribute("style","left:" + ball[i][0] + "px; top:" + ball[i][1] + "px; height:" + ball[i][4] + "px; width:" + ball[i][4] + "px; background-color: rgb(255," + ball[i][5] + "," + ball[i][6] + ");");
 	}
 }
 
@@ -252,86 +234,6 @@ function jd(){
 }
 
 
-function change(num){
-	var rd1 = Math.floor( Math.random() * 8 );
-	var rd2 = Math.random() * vxmax + vxmax/4;
-	var rd3 = Math.random() * vymax + vymax/4;
-	ball[num][4] = Math.floor( (Math.random()*2.5 +0.5) *pb );
-	ball[num][5] = Math.floor(Math.random() * 100);
-	ball[num][6] = Math.floor(Math.random() * 256);
-	switch(rd1){
-		case 0:
-			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1));
-			ball[num][1] = -ball[num][4]; 
-			ball[num][2] = rd2;
-			ball[num][3] = rd3;
-			break;
-		case 1:
-			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1) + wx/2 );
-			ball[num][1] = -ball[num][4];
-			ball[num][2] = -rd2;
-			ball[num][3] = rd3;
-			break;
-		case 2:
-			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1));
-			ball[num][1] = wy;
-			ball[num][2] = rd2;
-			ball[num][3] = -rd3;
-			break;
-		case 3:
-			ball[num][0] = Math.floor( Math.random() * (wx/2 + 1) + wx/2 );
-			ball[num][1] = wy;
-			ball[num][2] = -rd2
-			ball[num][3] = -rd3
-			break;
-		case 4:
-			ball[num][0] = -ball[num][4];
-			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1));
-			ball[num][2] = rd2;
-			ball[num][3] = rd3;
-			break;
-		case 5:
-			ball[num][0] = -ball[num][4];
-			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1) + wy/2 );
-			ball[num][2] = rd2;
-			ball[num][3] = -rd3;
-			break;
-		case 6:
-			ball[num][0] = wx;
-			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1));
-			ball[num][2] = -rd2;
-			ball[num][3] = rd3;
-			break;
-		case 7:
-			ball[num][0] = wx;
-			ball[num][1] = Math.floor( Math.random() * (wy/2 + 1) + wy/2 );
-			ball[num][2] = -rd2;
-			ball[num][3] = -rd3;
-			break;
-	}
-}
-
-
-function set(num){
-	change(num);
-	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
-	count++;
-	enemy++;
-	if( enemy%ball.length == 0 ){
-		add(ball.length);
-		enemy = 0;
-	}
-}
-
-function add(num){
-	ball.push(['','','','','','','']);
-	change(num);
-	var div_element = document.createElement("div");
-	div_element.setAttribute("class","en");
-	div_element.setAttribute("id","e"+num);
-	document.body.appendChild(div_element);
-	document.getElementById("e"+num).setAttribute("style","left:" + ball[num][0] + "px; top:" + ball[num][1] + "px; height:" + ball[num][4] + "px; width:" + ball[num][4] + "px; background-color: rgb(255," + ball[num][5] + "," + ball[num][6] + ");");
-}
 
 
 function fade( x, name , opa ){
@@ -345,6 +247,9 @@ function fade( x, name , opa ){
 
 
 function end(){
+	if (window.Worker) {
+		worker.terminate();
+	}
 	document.getElementById("r3").innerHTML = "<p id ='r3'>"+ ball.length + "</p>";
 	document.getElementById("r4").innerHTML = "<p id ='r4'>"+ count + "</p>";
 	if ( count >= highscore ) {
@@ -394,26 +299,21 @@ function disp1(){
 
 
 function disp2(){
-	endTime = new Date();
-	document.getElementById("score").innerHTML = "<p>"+ (endTime - startTime) + "ms</p>";
-	console.log(endTime - startTime + "ms");
-	startTime = new Date();
-	var len = ball.length;
-	for (var i = 0; i < len; i++) {
-		if( (ball[i][0] < -ball[i][4]) || (ball[i][1] < -ball[i][4]) || (ball[i][0] > wx + ball[i][4]) || (ball[i][1] > wy + ball[i][4]) ){
-			setTimeout(set(i),0);
-		}else{
-			ball[i][0] = ball[i][0] + ball[i][2];
-			ball[i][1] = ball[i][1] + ball[i][3];
-		}
+	if (window.Worker) {
+		var obj = {
+			'dwx':wx,
+			'dwy':wy,
+			'dvxmax':vxmax,
+			'dvymax':vymax,
+			'dpb':pb,
+			'dcount':count,
+		};
+		worker.postMessage(obj);
 	}
-
 }
 
 function disp3(){
 	if( jd() == 0 || rs == 1){
-		clearInterval(game1);
-		clearInterval(game2);
 		end();
 		return 0;
 	}
@@ -459,6 +359,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 function start(){
+	if (window.Worker) {
+	var worker = new Worker('worker.js');
+	}
 	document.getElementById("fadeLayer").style.opacity = "0";
 	document.getElementById("fadeLayer").style.visibility = "hidden";
 	document.getElementById("result").style.opacity = "0";
@@ -476,22 +379,44 @@ function start(){
 	judge = 1;
 	pb = Math.floor(Math.pow(wx*wy/3000,1/2));
 	count = 0;
-	enemy = 0;
 	rs = 0;
 	ball = [];
+	enemy = 0;
 	document.getElementById("start").style.visibility = "hidden";
 	document.getElementById("body").style.cursor = "none";
 	document.getElementById("player").setAttribute("style","left:" + ox + "px; top:" + oy + "px; height:" + pb + "px; width:" + pb + "px;");
-	add(0);
 	document.getElementById("score").innerHTML = "<p>LEVEL:"+ ball.length +"<br/>SCORE:"+ count +"</p>";
-	startTime = new Date();
-	game1 = setInterval("disp1()", speed);
-	game2 = setInterval("disp2()", speed);
+	disp2();
 	disp3();
 	window.addEventListener('resize',function(){
 		rs = 1;
 	},false);
 }
+
+
+
+worker.onmessage = function(e){
+	ball = e.data.dball;
+	count = e.data.dcount;
+	if( enemy < ball.length ){
+		var div_element = document.createElement("div");
+		div_element.setAttribute("class","en");
+		div_element.setAttribute("id","e"+enemy);
+		document.body.appendChild(div_element);
+		enemy++;
+	}
+	disp1();
+}
+
+
+
+
+
+
+
+
+
+
 
 </script>
 </head>
