@@ -26,4 +26,4 @@ HTMLとJavaScriptで書いています。どちらとも経験が浅いため、
 [chinimuruhi](https://github.com/chinimuruhi)
 
 ## Contact
-[ちにむるひ](https://twitter.com/ch1n1_net)
+[ちにむるひ（Twitter）](https://twitter.com/ch1n1_net)
