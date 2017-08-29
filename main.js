@@ -5,14 +5,7 @@ if ('serviceWorker' in navigator) {
     console.log('ServiceWorker registration failed: ', err);
   });
 }
-var cache = window.applicationCache;
-cache.addEventListener("updateready", function() {
-    if (confirm('アプリケーションの新しいバージョンが利用可能です。更新しますか？')) {
-        cache.swapCache();
-        location.reload();
-    }
-});
-var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy,tc;
+var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy;
 var speed = 10.0;
 if (window.Worker) {
 	var worker = new Worker('worker.js');
@@ -55,9 +48,7 @@ function end(){
 		if(lsCheck()){
 			localStorage.highscore= count;
 		}else{
-			if(navigator.cookieEnabled){
-				document.cookie = count + "; expires=Tue, 1-Jan-2030 00:00:00 GMT";
-			}
+			document.cookie = count + "; expires=Tue, 1-Jan-2030 00:00:00 GMT";
 		}
 	}else{
 		document.getElementById("r4").style.color = "#000";
@@ -158,7 +149,6 @@ function start(){
 	rs = 0;
 	ball = [];
 	enemy = 0;
-	tc = 0;
 	document.getElementById("start").style.visibility = "hidden";
 	document.getElementById("body").style.cursor = "none";
 	document.getElementById("player").setAttribute("style","left:" + ox + "px; top:" + oy + "px; height:" + pb + "px; width:" + pb + "px;");
@@ -177,37 +167,22 @@ document.addEventListener("DOMContentLoaded", function(){
 	}else{
 		highscore = Number(document.cookie) || 0;
 	}
-	if (navigator.onLine) {
-    	cache.update();
-	}
 	document.getElementById("score").innerHTML = "<p>HIGH SCORE:"+ highscore +"</p>";
 	if ( navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
    		document.getElementById("body").addEventListener('touchstart', function(event) {
 			event = event || window.event;
-			if (event.touches.length <= 1 && tc == 0) {
-				txs = event.changedTouches[0].clientX;
-				tys = event.changedTouches[0].clientY;
-			}else{
-				tc = 1;
-			}
+			txs = event.changedTouches[0].clientX;
+			tys = event.changedTouches[0].clientY;
 		},false);
 		document.getElementById("body").addEventListener('touchmove', function(event) {
 			event.preventDefault();
 			event = event || window.event;
-			if (event.touches.length <= 1 && tc == 0) {
-				txe = event.changedTouches[0].clientX;
-				tye = event.changedTouches[0].clientY;
-				ox = px + txe - txs;
-				oy = py + tye - tys;
-				txs = txe;
-				tys = tye;
-			}
-		},false);
-		document.getElementById("body").addEventListener('touchend', function(event) {
-			event = event || window.event;
-			if (event.touches.length == 0) {
-				tc = 0;
-			}
+			txe = event.changedTouches[0].clientX;
+			tye = event.changedTouches[0].clientY;
+			ox = px + txe - txs;
+			oy = py + tye - tys;
+			txs = txe;
+			tys = tye;
 		},false);
 	}else{
 		document.getElementById("body").addEventListener('mousemove', function(event) {
