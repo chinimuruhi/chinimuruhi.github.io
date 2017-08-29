@@ -5,16 +5,13 @@ if ('serviceWorker' in navigator) {
     console.log('ServiceWorker registration failed: ', err);
   });
 }
-/**var cache = window.applicationCache;
+var cache = window.applicationCache;
 cache.addEventListener("updateready", function() {
     if (confirm('アプリケーションの新しいバージョンが利用可能です。更新しますか？')) {
         cache.swapCache();
         location.reload();
     }
 });
-if (navigator.onLine) {
-    cache.update();
-}*/
 var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy,tc;
 var speed = 10.0;
 if (window.Worker) {
@@ -179,6 +176,9 @@ document.addEventListener("DOMContentLoaded", function(){
 		highscore = Number(localStorage.highscore) || 0;
 	}else{
 		highscore = Number(document.cookie) || 0;
+	}
+	if (navigator.onLine) {
+    	cache.update();
 	}
 	document.getElementById("score").innerHTML = "<p>HIGH SCORE:"+ highscore +"</p>";
 	if ( navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
