@@ -58,10 +58,14 @@ function end(){
 		document.getElementById("r5").style.color = "#F00";
 		highscore = count;
 		if(lsCheck()){
-			localStorage.highscore= count;
+			try {
+				localStorage.highscore= count;
+			} catch(e) {
+			}
 		}else{
-			if(navigator.cookieEnabled){
+			try {
 				document.cookie = count + "; expires=Tue, 1-Jan-2030 00:00:00 GMT";
+			} catch(e) {
 			}
 		}
 	}else{
