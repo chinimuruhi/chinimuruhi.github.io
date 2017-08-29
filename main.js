@@ -5,7 +5,7 @@ if ('serviceWorker' in navigator) {
     console.log('ServiceWorker registration failed: ', err);
   });
 }
-/**var cache = window.applicationCache;
+var cache = window.applicationCache;
 cache.addEventListener("updateready", function() {
     if (confirm('アプリケーションの新しいバージョンが利用可能です。更新しますか？')) {
         cache.swapCache();
@@ -14,7 +14,7 @@ cache.addEventListener("updateready", function() {
 });
 if (navigator.onLine) {
     cache.update();
-}*/
+}
 var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy,tc;
 var speed = 10.0;
 if (window.Worker) {
