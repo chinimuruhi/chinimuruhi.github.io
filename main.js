@@ -5,17 +5,7 @@ if ('serviceWorker' in navigator) {
     console.log('ServiceWorker registration failed: ', err);
   });
 }
-var cache = window.applicationCache;
-cache.addEventListener("updateready", function() {
-    if (confirm('アプリケーションの新しいバージョンが利用可能です。更新しますか？')) {
-        cache.swapCache();
-        location.reload();
-    }
-});
-if (navigator.onLine) {
-    cache.update();
-}
-var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy,touch;
+var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy;
 var speed = 10.0;
 if (window.Worker) {
 	var worker = new Worker('worker.js');
@@ -58,9 +48,7 @@ function end(){
 		if(lsCheck()){
 			localStorage.highscore= count;
 		}else{
-			if(navigator.cookieEnabled){
-				document.cookie = count + "; expires=Tue, 1-Jan-2030 00:00:00 GMT";
-			}
+			document.cookie = count + "; expires=Tue, 1-Jan-2030 00:00:00 GMT";
 		}
 	}else{
 		document.getElementById("r4").style.color = "#000";
@@ -183,22 +171,18 @@ document.addEventListener("DOMContentLoaded", function(){
 	if ( navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
    		document.getElementById("body").addEventListener('touchstart', function(event) {
 			event = event || window.event;
-			if (event.touches.length <= 1) {
-				txs = event.changedTouches[0].clientX;
-				tys = event.changedTouches[0].clientY;
-			}
+			txs = event.changedTouches[0].clientX;
+			tys = event.changedTouches[0].clientY;
 		},false);
 		document.getElementById("body").addEventListener('touchmove', function(event) {
 			event.preventDefault();
 			event = event || window.event;
-			if (event.touches.length <= 1) {
-				txe = event.changedTouches[0].clientX;
-				tye = event.changedTouches[0].clientY;
-				ox = px + txe - txs;
-				oy = py + tye - tys;
-				txs = txe;
-				tys = tye;
-			}
+			txe = event.changedTouches[0].clientX;
+			tye = event.changedTouches[0].clientY;
+			ox = px + txe - txs;
+			oy = py + tye - tys;
+			txs = txe;
+			tys = tye;
 		},false);
 	}else{
 		document.getElementById("body").addEventListener('mousemove', function(event) {
