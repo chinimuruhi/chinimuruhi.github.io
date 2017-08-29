@@ -15,7 +15,6 @@ window.addEventListener('load', function(e) {
     } else {
     }
   }, false);
-
 }, false);
 var highscore,mx,my,wx,wy,ox,oy,px,py,vxmax,vymax,txs,tys,txe,tye,pb,count,rs,ball,enemy,tc;
 var speed = 10.0;
