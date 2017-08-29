@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				tys = tye;
 			}
 		},false);
-		document.getElementById("body").addEventListener('touchmove', function(event) {
+		document.getElementById("body").addEventListener('touchend', function(event) {
 			event = event || window.event;
 			if (event.touches.length == 0) {
 				tc = 0;
