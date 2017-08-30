@@ -159,8 +159,8 @@ function start(){
 	wy = window.innerHeight;
 	ox = wx/2;
 	oy = wy/2;
-	vxmax = wx/600;
-	vymax = wy/600;
+	vxmax = wx/200;
+	vymax = wy/200;
 	pb = Math.floor(Math.pow(wx*wy/3000,1/2));
 	count = 0;
 	rs = 0;
