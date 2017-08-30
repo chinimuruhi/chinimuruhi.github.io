@@ -100,7 +100,7 @@ function work(){
 function over(){
 	for (var i = 0; i < ball.length; i++) {
 		if( Math.pow(ball[i][0] + ball[i][4]/2 - px - pb/2 ,2) + Math.pow(ball[i][1] +ball[i][4]/2 - py - pb/2,2) - Math.pow(ball[i][4]/2 + pb/2,2) < 0 ) {
-			return 0;
+			return 1;
 		}
 	}
 	return 0;
