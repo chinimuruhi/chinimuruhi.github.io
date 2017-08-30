@@ -1,0 +1,16 @@
+CACHE MANIFEST
+# Version: 1001
+ 
+CACHE:
+favicon.ico
+icon.png
+index.html
+logo.png
+main.js
+manifest.json
+style.css
+sw.js
+worker.js
+
+
+NETWORK:

@@ -1,0 +1,144 @@
+body {
+	background-color: #000;
+	overflow: hidden;
+	margin: 0px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 60vh;
+}
+
+#start {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	max-width: 100vw;
+	max-height: 100vh;
+	text-align: center;
+}
+
+#player {
+	border-radius: 50%;
+	background-color: #FFF;
+	position: absolute;
+}
+
+.en {
+	border-radius: 50%;
+	position: absolute;
+}
+
+#fadeLayer {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100vw;
+	height:100vh;
+	background-color:#000;
+	opacity:0;
+	visibility:hidden;
+	z-index:2;
+}
+
+#instructions {
+	font-size: 100%;
+	color : #ffffb7;
+	text-decoration: none;
+    font-weight: bold;
+
+}
+
+#start_btn{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 300%;
+    color: #ffff86;
+    text-shadow: 0px 4px 2px #ff9727, 0px 1px 0px #ff7927, 0px 2px 0px #ff5027, 0px 3px 0px #ff5000;
+}
+
+
+#score {
+	position:absolute;
+	bottom:0;
+	right:0;
+	font-size: calc(100% + 1.0vw);
+	color: #FFF;
+	line-height:120%;
+	text-align: right;
+	opacity:0.6;
+	z-index: 1;
+}
+
+#result {
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	max-width: 100vw;
+	min-width: 60vw;
+	max-height: 100vh;
+	z-index: 3;
+	visibility:hidden;
+	opacity:0;
+	font-size: calc(100% + 1.0vw);
+	white-space: nowrap;
+	text-align: center;
+}
+
+#text {
+	background-color: #FFF;
+	border-radius: 10%/15%;
+}
+
+#left {
+	display: inline-block;
+	font-weight: bold;
+}
+
+#center {
+	display: inline-block;
+	font-weight: bold;
+}
+
+#right {
+	display: inline-block;
+	font-weight: bold;
+}
+
+#share {
+	margin-top: 1vh;
+	color: #FFF;
+	width: 100%;
+}
+
+#result a {
+	color:#FFF;
+	display: block;
+	text-decoration: none;
+}
+
+#share a {
+	font-size: calc(0.15rem + 2.0vw);
+	display: inline-block;
+	padding: 5% 10%;
+	white-space: nowrap;
+	border-radius: 10%/30%;
+}
+
+#line {
+	background-color: #09B701;
+}
+
+#twitter {
+	background-color: #55acee;
+}
+
+#finish {
+	width: 100%;
+	background-color: #ff5000;
+	margin-top: 1vh;
+	border-radius: 10%/100%;
+}
