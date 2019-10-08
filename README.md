@@ -20,6 +20,7 @@ Chromeアプリで[ページ](https://chinimuruhi.github.io/)にアクセスを�
 Safariから[ページ](https://chinimuruhi.github.io/)を開き、画面の下にある「アクション」ボタンをタップ、「ホーム画面に追加」を押します。
 
 ※古い型のiPhone/iPadでは正常に動かない可能性があります。カクつく場合にはホーム画面に追加せず、Safari上で遊んでみて下さい。
+※iOS12以降では正常に動作しない可能性があります。
 
 ## Description
 HTMLとJavaScriptで書いています。どちらとも経験が浅いため、お気づきの点がございましたら、ご指摘いただけると幸いです。
